@@ -1,0 +1,12 @@
+{
+    "concurrentFiles": 1,
+    "globIncludePatterns": [
+        "./src/**/*.js"
+    ],
+    "outputDir": "./flow-coverage",
+    "reportTypes": [
+        "text",
+        "html",
+        "json"
+    ]
+}
