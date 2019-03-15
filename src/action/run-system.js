@@ -6,8 +6,8 @@ import puppeteer from 'puppeteer';
 import {appConst} from '../const';
 
 type SystemDataType = {|
-    page: Page,
-    browser: Browser,
+    +page: Page,
+    +browser: Browser,
 |};
 
 export async function runSystem(): Promise<SystemDataType> {

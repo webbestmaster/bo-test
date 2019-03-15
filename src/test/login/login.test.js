@@ -4,6 +4,9 @@
 
 import assert from 'assert';
 
+import type {Browser, Page} from 'puppeteer';
+import puppeteer from 'puppeteer';
+
 import {runSystem} from '../../action/run-system';
 import {appConst} from '../../const';
 
@@ -18,16 +21,29 @@ const loginConst = {
     itTimeout: 5e3,
 };
 
-describe('Login', () => {
+describe('Login', async () => {
+    // $FlowFixMe
+    let browser: Browser = null;
+
+    // $FlowFixMe
+    let page: Page = null;
+
     before(() => {
         console.log('before');
     });
 
-    beforeEach(() => {
+    beforeEach(async () => {
+        const system = await runSystem();
+
+        browser = system.browser;
+        page = system.page;
+
         console.log('beforeEach');
     });
 
-    afterEach(() => {
+    afterEach(async () => {
+        await browser.close();
+
         console.log('afterEach');
     });
 
@@ -36,21 +52,12 @@ describe('Login', () => {
     });
 
     it('Simple login', async () => {
-        const {page, browser} = await runSystem();
+        await page.goto(appConst.url.login);
 
-        try {
-            await page.goto(appConst.url.login);
-
-            await page.type(
-                loginConst.selector.login,
-                userLoginDataList[0].login
-            );
-            await page.type(
-                loginConst.selector.password,
-                userLoginDataList[0].password
-            );
-        } finally {
-            browser.close();
-        }
+        await page.type(loginConst.selector.login, userLoginDataList[0].login);
+        await page.type(
+            loginConst.selector.password,
+            userLoginDataList[0].password
+        );
     }).timeout(loginConst.itTimeout);
 });
