@@ -13,6 +13,10 @@ declare module 'puppeteer' {
         continue(): mixed,
     }
 
+    declare type WaitForNavigationOptionType = {
+        timeout?: number,
+    }
+
     declare class Page {
         goto(url: string): Promise<mixed>,
         screenshot(options: PageScreenshotOptionsType): Promise<mixed>,
@@ -25,6 +29,7 @@ declare module 'puppeteer' {
         setViewport(size: {width: number, height: number}): Promise<mixed>,
         setRequestInterception(isEnable: boolean): Promise<mixed>,
         on<T>(eventName: string, callback: (context: T)=> mixed): mixed,
+        waitForNavigation(options?: WaitForNavigationOptionType): Promise<mixed>,
     }
 
     declare class Browser {
