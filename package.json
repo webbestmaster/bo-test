@@ -14,7 +14,7 @@
   },
   "homepage": "https://github.com/webbestmaster/bo-test#readme",
   "scripts": {
-    "test-mocha": "mocha --require @babel/register ./src/test/*",
+    "mocha": "mocha --require @babel/register ./src/test/*",
     "check": "npm run eslint; npm run flow;",
     "check:fix": "npm run prettier; npm run eslint:fix; npm run flow;",
     "eslint": "eslint .",
@@ -63,7 +63,7 @@
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-sonarjs": "^0.3.0",
     "eslint-plugin-unicorn": "^7.1.0",
-    "flow-bin": "^0.94.0",
+    "flow-bin": "^0.95.1",
     "flow-coverage-report": "^0.6.1",
     "flow-runtime": "^0.17.0",
     "flow-typed": "^2.5.1",
