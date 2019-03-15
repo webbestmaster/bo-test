@@ -1,10 +1,9 @@
 // @flow
 
-/* global describe, it, beforeEach */
+/* global describe, it, xit, before, after, beforeEach, afterEach */
 
 import assert from 'assert';
 
-import {TestMe} from '../../test-module/test-me';
 import {runSystem} from '../../action/run-system';
 import {appConst} from '../../const';
 
@@ -20,25 +19,38 @@ const loginConst = {
 };
 
 describe('Login', () => {
-    it('Login simple login', async () => {
-        const {page} = await runSystem();
+    before(() => {
+        console.log('before');
+    });
 
-        await page.goto(appConst.url.login);
+    beforeEach(() => {
+        console.log('beforeEach');
+    });
 
-        await page.type(loginConst.selector.login, userLoginDataList[0].login);
-        await page.type(
-            loginConst.selector.password,
-            userLoginDataList[0].password
-        );
+    afterEach(() => {
+        console.log('afterEach');
+    });
 
-        await page.click(loginConst.selector.singInButton);
+    after(() => {
+        console.log('after');
+    });
 
-        await page.waitForNavigation();
+    it('Simple login', async () => {
+        const {page, browser} = await runSystem();
 
-        console.log('!!!!!');
+        try {
+            await page.goto(appConst.url.login);
 
-        // assert(testMe.sum(1, 2) === 3, '1 + 2 === 3');
-        //
-        // assert.deepStrictEqual({obj: 1}, {obj: 1}, '{obj: 1}, {obj: 1}');
+            await page.type(
+                loginConst.selector.login,
+                userLoginDataList[0].login
+            );
+            await page.type(
+                loginConst.selector.password,
+                userLoginDataList[0].password
+            );
+        } finally {
+            browser.close();
+        }
     }).timeout(loginConst.itTimeout);
 });
