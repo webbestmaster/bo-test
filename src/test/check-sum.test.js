@@ -1,13 +1,13 @@
 // @flow
 
-/* global describe, it */
+/* global describe, it, xit */
 
 import assert from 'assert';
 
 import {TestMe} from '../test-module/test-me';
 
 describe('describe: check sum', () => {
-    it('it: check sum', () => {
+    xit('it: check sum', () => {
         const testMe = new TestMe();
 
         assert(testMe.sum(1, 2) === 3, '1 + 2 === 3');

@@ -18,7 +18,7 @@ const loginConst = {
         password: 'input[name="password"]',
         singInButton: 'button[type="submit"]',
     },
-    itTimeout: 5e3,
+    itTimeout: 30e3,
 };
 
 describe('Login', async () => {
@@ -54,10 +54,16 @@ describe('Login', async () => {
     it('Simple login', async () => {
         await page.goto(appConst.url.login);
 
+        await page.waitForSelector(loginConst.selector.login, {timeout: 3e3});
+
         await page.type(loginConst.selector.login, userLoginDataList[0].login);
         await page.type(
             loginConst.selector.password,
             userLoginDataList[0].password
         );
+
+        await page.click(loginConst.selector.singInButton);
+
+        await page.waitForNavigation({timeout: 3e3});
     }).timeout(loginConst.itTimeout);
 });
