@@ -7,8 +7,8 @@ const rootUrl = 'http://localhost:8181';
 export const appConst = {
     window: {
         size: {
-            width: 900,
-            height: 620,
+            width: 1200,
+            height: 900,
         },
     },
     url: {
