@@ -5,7 +5,7 @@ declare module 'puppeteer' {
 
     declare type PageScreenshotOptionsType = {
         path: string,
-    };
+    }
 
     declare class InterceptedRequest {
         resourceType(): string,
