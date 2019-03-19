@@ -76,4 +76,42 @@ describe('Login', async () => {
 
         await page.waitForNavigation({timeout: loginConst.navigationTimeout});
     }).timeout(loginConst.itTimeout);
+
+    it('Impossible login with empty login and password', async () => {
+        await page.goto(appConst.url.login);
+        await page.waitForSelector(loginConst.selector.login, {
+            timeout: loginConst.navigationTimeout,
+        });
+
+        await page.type(loginConst.selector.login, '');
+        await page.type(loginConst.selector.password, '');
+
+        await page.click(loginConst.selector.singInButton);
+
+        await page.waitFor(loginConst.navigationTimeout);
+
+        assert(
+            page.url().startsWith(appConst.url.login),
+            `page url: ${page.url()}, login url: ${appConst.url.login}`
+        );
+    }).timeout(loginConst.itTimeout);
+
+    it('Impossible login with wrong login and password', async () => {
+        await page.goto(appConst.url.login);
+        await page.waitForSelector(loginConst.selector.login, {
+            timeout: loginConst.navigationTimeout,
+        });
+
+        await page.type(loginConst.selector.login, String(Math.random()));
+        await page.type(loginConst.selector.password, String(Math.random()));
+
+        await page.click(loginConst.selector.singInButton);
+
+        await page.waitFor(loginConst.navigationTimeout);
+
+        assert(
+            page.url().startsWith(appConst.url.login),
+            `page url: ${page.url()}, login url: ${appConst.url.login}`
+        );
+    }).timeout(loginConst.itTimeout);
 });
