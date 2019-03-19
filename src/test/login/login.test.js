@@ -1,8 +1,8 @@
 // @flow
 
-/* global describe, it, xit, before, after, beforeEach, afterEach */
-
 import assert from 'assert';
+
+import {describe, it, xit, before, after, beforeEach, afterEach} from 'mocha';
 
 import type {Browser, Page} from 'puppeteer';
 
