@@ -31,7 +31,7 @@ export async function runSystem(): Promise<SystemDataType> {
 
     const page = await browser.newPage();
 
-    await page.setViewport({width, height});
+    await page.setViewport({width: width - 50, height: height - 80});
 
     return {page, browser};
 }
