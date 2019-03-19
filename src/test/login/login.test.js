@@ -5,22 +5,14 @@
 import assert from 'assert';
 
 import type {Browser, Page} from 'puppeteer';
-import puppeteer from 'puppeteer';
 
 import {runSystem} from '../../action/run-system';
 import {appConst} from '../../const';
+import {loginConst} from '../../action/login';
 
 import {userLoginData} from './user-data';
 
-const loginConst = {
-    selector: {
-        login: 'input[name="login"]',
-        password: 'input[name="password"]',
-        singInButton: 'button[type="submit"]',
-    },
-    itTimeout: 30e3,
-    navigationTimeout: 3e3,
-};
+const itTimeout = 30e3;
 
 describe('Login', async () => {
     // $FlowFixMe
@@ -55,7 +47,7 @@ describe('Login', async () => {
         await page.click(loginConst.selector.singInButton);
 
         await page.waitForNavigation({timeout: loginConst.navigationTimeout});
-    }).timeout(loginConst.itTimeout);
+    }).timeout(itTimeout);
 
     it('Login with spec symbols', async () => {
         await page.goto(appConst.url.login);
@@ -75,7 +67,7 @@ describe('Login', async () => {
         await page.click(loginConst.selector.singInButton);
 
         await page.waitForNavigation({timeout: loginConst.navigationTimeout});
-    }).timeout(loginConst.itTimeout);
+    }).timeout(itTimeout);
 
     it('Impossible login with empty login and password', async () => {
         await page.goto(appConst.url.login);
@@ -94,7 +86,7 @@ describe('Login', async () => {
             page.url().startsWith(appConst.url.login),
             `page url: ${page.url()}, login url: ${appConst.url.login}`
         );
-    }).timeout(loginConst.itTimeout);
+    }).timeout(itTimeout);
 
     it('Impossible login with wrong login and password', async () => {
         await page.goto(appConst.url.login);
@@ -113,5 +105,5 @@ describe('Login', async () => {
             page.url().startsWith(appConst.url.login),
             `page url: ${page.url()}, login url: ${appConst.url.login}`
         );
-    }).timeout(loginConst.itTimeout);
+    }).timeout(itTimeout);
 });
