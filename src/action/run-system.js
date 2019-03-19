@@ -17,7 +17,7 @@ export async function runSystem(): Promise<SystemDataType> {
     const {width, height} = appConst.window.size;
 
     const browser = await puppeteer.launch({
-        executablePath: pathToChromeMacOS,
+        // executablePath: pathToChromeMacOS,
         headless: false,
         slowMo: 50,
         args: [
