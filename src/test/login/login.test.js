@@ -29,27 +29,15 @@ describe('Login', async () => {
     // $FlowFixMe
     let page: Page = null;
 
-    before(() => {
-        console.log('before');
-    });
-
     beforeEach(async () => {
         const system = await runSystem();
 
         browser = system.browser;
         page = system.page;
-
-        console.log('beforeEach');
     });
 
     afterEach(async () => {
         await browser.close();
-
-        console.log('afterEach');
-    });
-
-    after(() => {
-        console.log('after');
     });
 
     it('Usual login', async () => {
