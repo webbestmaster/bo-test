@@ -1,3 +1,3 @@
 // @flow
 
-export const errorSnackbar = 'div[data-snackbar-type="error"]';
+export const errorSnackbar = 'div[data-at-snackbar-type="error"]';
