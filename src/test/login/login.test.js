@@ -7,6 +7,7 @@ import {runSystem} from '../../action/run-system';
 import {appConst} from '../../const';
 import {loginConst} from '../../action/login';
 import {errorSnackbar} from '../../util/selector';
+import {repeat} from '../../util/repeat';
 
 import {userLoginData} from './user-data';
 
@@ -63,6 +64,27 @@ describe('Login', async () => {
         );
 
         await page.click(loginConst.selector.singInButton);
+
+        await page.waitForNavigation({timeout: loginConst.navigationTimeout});
+    }).timeout(itTimeout);
+
+    it('Several click to login button', async () => {
+        await page.goto(appConst.url.login);
+        await page.waitForSelector(loginConst.selector.login, {
+            timeout: loginConst.navigationTimeout,
+        });
+
+        await page.type(loginConst.selector.login, userLoginData.usual.login);
+        await page.type(
+            loginConst.selector.password,
+            userLoginData.usual.password
+        );
+
+        await repeat(
+            async (): Promise<mixed> =>
+                await page.click(loginConst.selector.singInButton),
+            10
+        );
 
         await page.waitForNavigation({timeout: loginConst.navigationTimeout});
     }).timeout(itTimeout);
