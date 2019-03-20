@@ -1,10 +1,12 @@
 // @flow
 
+import assert from 'assert';
+
 import {describe, it, xit, before, after, beforeEach, afterEach} from 'mocha';
-import type {Browser, Page} from 'puppeteer';
+import type {Browser, Page, InterceptedRequest} from 'puppeteer';
 
 import {runSystem} from '../../action/run-system';
-import {appConst} from '../../const';
+import {appConst, rootUrl} from '../../const';
 import {loginConst} from '../../action/login';
 import {errorSnackbar} from '../../util/selector';
 import {repeat} from '../../util/repeat';
@@ -12,6 +14,7 @@ import {repeat} from '../../util/repeat';
 import {userLoginData} from './user-data';
 
 const itTimeout = 30e3;
+const loginApiUrl = rootUrl + '/security/login';
 
 describe('Login', async () => {
     // $FlowFixMe
@@ -69,6 +72,20 @@ describe('Login', async () => {
     }).timeout(itTimeout);
 
     it('Several click to login button', async () => {
+        await page.setRequestInterception(true);
+
+        let loginRequestCount = 0;
+
+        page.on<InterceptedRequest>(
+            'request',
+            (interceptedRequest: InterceptedRequest) => {
+                if (interceptedRequest.url() === loginApiUrl) {
+                    loginRequestCount += 1;
+                }
+                interceptedRequest.continue();
+            }
+        );
+
         await page.goto(appConst.url.login);
         await page.waitForSelector(loginConst.selector.login, {
             timeout: loginConst.navigationTimeout,
@@ -80,13 +97,13 @@ describe('Login', async () => {
             userLoginData.usual.password
         );
 
-        await repeat(
-            async (): Promise<mixed> =>
-                await page.click(loginConst.selector.singInButton),
-            10
-        );
+        await repeat(async () => {
+            await page.click(loginConst.selector.singInButton);
+        }, 100);
 
         await page.waitForNavigation({timeout: loginConst.navigationTimeout});
+
+        assert(loginRequestCount === 1, 'Login request should be once');
     }).timeout(itTimeout);
 
     it('Impossible login with empty login and password', async () => {

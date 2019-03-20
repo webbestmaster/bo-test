@@ -2,7 +2,7 @@
 
 import {Page} from 'puppeteer';
 
-const rootUrl = 'http://localhost:8181';
+export const rootUrl = 'http://localhost:8181';
 
 export const appConst = {
     window: {

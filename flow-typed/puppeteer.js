@@ -8,6 +8,7 @@ declare module 'puppeteer' {
     }
 
     declare class InterceptedRequest {
+        url(): string,
         resourceType(): string,
         abort(): mixed,
         continue(): mixed,
