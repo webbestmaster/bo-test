@@ -29,7 +29,7 @@ export async function runSystem(): Promise<SystemDataType> {
         ],
     });
 
-    const page = await browser.newPage();
+    const [page] = await browser.pages();
 
     await page.setViewport({width: width - 20, height: height - 100});
 

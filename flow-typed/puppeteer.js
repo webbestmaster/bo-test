@@ -42,6 +42,7 @@ declare module 'puppeteer' {
     declare class Browser {
         newPage(): Promise<Page>,
         close(): Promise<mixed>,
+        pages(): Promise<Array<Page>>,
     }
 
     declare type LaunchOptionsType = {
@@ -58,5 +59,5 @@ declare module 'puppeteer' {
         args?: Array<string>, // example ['--window-size=384,480', '--disable-infobars']
     }
 
-    declare function launch(launchOptions: LaunchOptionsType): Browser;
+    declare function launch(launchOptions: LaunchOptionsType): Promise<Browser>;
 }
