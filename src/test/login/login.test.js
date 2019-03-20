@@ -1,14 +1,12 @@
 // @flow
 
-import assert from 'assert';
-
 import {describe, it, xit, before, after, beforeEach, afterEach} from 'mocha';
-
 import type {Browser, Page} from 'puppeteer';
 
 import {runSystem} from '../../action/run-system';
 import {appConst} from '../../const';
 import {loginConst} from '../../action/login';
+import {errorSnackbar} from '../../util/selector';
 
 import {userLoginData} from './user-data';
 
@@ -80,12 +78,9 @@ describe('Login', async () => {
 
         await page.click(loginConst.selector.singInButton);
 
-        await page.waitFor(loginConst.navigationTimeout);
-
-        assert(
-            page.url().startsWith(appConst.url.login),
-            `page url: ${page.url()}, login url: ${appConst.url.login}`
-        );
+        await page.waitForSelector(errorSnackbar, {
+            timeout: loginConst.navigationTimeout,
+        });
     }).timeout(itTimeout);
 
     it('Impossible login with wrong login and password', async () => {
@@ -99,11 +94,8 @@ describe('Login', async () => {
 
         await page.click(loginConst.selector.singInButton);
 
-        await page.waitFor(loginConst.navigationTimeout);
-
-        assert(
-            page.url().startsWith(appConst.url.login),
-            `page url: ${page.url()}, login url: ${appConst.url.login}`
-        );
+        await page.waitForSelector(errorSnackbar, {
+            timeout: loginConst.navigationTimeout,
+        });
     }).timeout(itTimeout);
 });
