@@ -30,6 +30,7 @@ declare module 'puppeteer' {
         click(cssSelector: string): Promise<mixed>,
         type(cssSelector: string, text: string): Promise<mixed>,
         $(cssSelector: string): Promise<?ElementHandleType>,
+        $$(cssSelector: string): Promise<Array<?ElementHandleType>>,
         evaluate<T>(funcOrStringFunc: ((() => T) | string)): Promise<T>,
         url(): string,
         waitFor(timeoutInMs: number): Promise<mixed>,

@@ -1,5 +1,7 @@
 // @flow
 
+/* global process */
+
 import assert from 'assert';
 
 import {describe, it, xit, before, after, beforeEach, afterEach} from 'mocha';
@@ -11,19 +13,19 @@ import {login, loginConst} from '../../action/login';
 import {errorSnackbar} from '../../util/selector';
 import {repeat} from '../../util/repeat';
 
+import {casinoConst} from './casino-const';
+
 // import {userLoginData} from './user-data';
 
 const loginApiUrl = rootUrl + '/security/login';
 
-describe.only('Casino / Maintenance', async function casinoMaintenanceDescribe() {
+describe('Casino / Maintenance', async function casinoMaintenanceDescribe() {
     // eslint-disable-next-line babel/no-invalid-this
     this.timeout(30e3);
 
-    // $FlowFixMe
-    let browser: Browser = null;
+    let browser: Browser = process.mockBrowser;
 
-    // $FlowFixMe
-    let page: Page = null;
+    let page: Page = process.mockPage;
 
     before(async () => {
         const system = await runSystem();
@@ -38,7 +40,13 @@ describe.only('Casino / Maintenance', async function casinoMaintenanceDescribe()
         await browser.close();
     });
 
-    it('check both table exists', async () => {
-        console.log('!!!!!!!!!!!');
+    it('Check both table exists', async () => {
+        await page.goto(rootUrl + casinoConst.url.root);
+
+        await page.waitForSelector('table', {timeout: 3e3});
+
+        const tableList = await page.$$('table');
+
+        assert(tableList.length === 2, 'Page should contains two table');
     });
 });

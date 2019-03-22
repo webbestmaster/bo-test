@@ -1,5 +1,7 @@
 // @flow
 
+/* global process */
+
 import assert from 'assert';
 
 import {describe, it, xit, before, after, beforeEach, afterEach} from 'mocha';
@@ -19,11 +21,9 @@ describe('Login', async function login() {
     // eslint-disable-next-line babel/no-invalid-this
     this.timeout(30e3);
 
-    // $FlowFixMe
-    let browser: Browser = null;
+    let browser: Browser = process.mockBrowser;
 
-    // $FlowFixMe
-    let page: Page = null;
+    let page: Page = process.mockPage;
 
     beforeEach(async () => {
         const system = await runSystem();
