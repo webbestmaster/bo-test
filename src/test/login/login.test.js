@@ -13,10 +13,12 @@ import {repeat} from '../../util/repeat';
 
 import {userLoginData} from './user-data';
 
-const itTimeout = 30e3;
 const loginApiUrl = rootUrl + '/security/login';
 
-describe('Login', async () => {
+describe('Login', async function login() {
+    // eslint-disable-next-line babel/no-invalid-this
+    this.timeout(30e3);
+
     // $FlowFixMe
     let browser: Browser = null;
 
@@ -49,7 +51,7 @@ describe('Login', async () => {
         await page.click(loginConst.selector.singInButton);
 
         await page.waitForNavigation({timeout: loginConst.navigationTimeout});
-    }).timeout(itTimeout);
+    });
 
     it('Login with spec symbols', async () => {
         await page.goto(appConst.url.login);
@@ -69,7 +71,7 @@ describe('Login', async () => {
         await page.click(loginConst.selector.singInButton);
 
         await page.waitForNavigation({timeout: loginConst.navigationTimeout});
-    }).timeout(itTimeout);
+    });
 
     it('Several click to login button', async () => {
         await page.setRequestInterception(true);
@@ -104,7 +106,7 @@ describe('Login', async () => {
         await page.waitForNavigation({timeout: loginConst.navigationTimeout});
 
         assert(loginRequestCount === 1, 'Login request should be once');
-    }).timeout(itTimeout);
+    });
 
     it('Impossible login with empty login and password', async () => {
         await page.goto(appConst.url.login);
@@ -120,7 +122,7 @@ describe('Login', async () => {
         await page.waitForSelector(errorSnackbar, {
             timeout: loginConst.navigationTimeout,
         });
-    }).timeout(itTimeout);
+    });
 
     it('Impossible login with wrong login and password', async () => {
         await page.goto(appConst.url.login);
@@ -136,5 +138,5 @@ describe('Login', async () => {
         await page.waitForSelector(errorSnackbar, {
             timeout: loginConst.navigationTimeout,
         });
-    }).timeout(itTimeout);
+    });
 });
