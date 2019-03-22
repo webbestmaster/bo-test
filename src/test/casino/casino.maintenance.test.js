@@ -19,7 +19,7 @@ import {casinoConst} from './casino-const';
 
 const loginApiUrl = rootUrl + '/security/login';
 
-describe('Casino / Maintenance', async function casinoMaintenanceDescribe() {
+describe.only('Casino / Maintenance', async function casinoMaintenanceDescribe() {
     // eslint-disable-next-line babel/no-invalid-this
     this.timeout(30e3);
 
@@ -40,7 +40,7 @@ describe('Casino / Maintenance', async function casinoMaintenanceDescribe() {
         await browser.close();
     });
 
-    it('Check both table exists', async () => {
+    it('Both table exists', async () => {
         await page.goto(rootUrl + casinoConst.url.root);
 
         await page.waitForSelector('table', {timeout: 3e3});
@@ -48,5 +48,11 @@ describe('Casino / Maintenance', async function casinoMaintenanceDescribe() {
         const tableList = await page.$$('table');
 
         assert(tableList.length === 2, 'Page should contains two table');
+    });
+
+    it('Maintenance create', async () => {
+        await page.goto(rootUrl + casinoConst.url.create);
+
+        await page.waitForSelector('form', {timeout: 3e3});
     });
 });
