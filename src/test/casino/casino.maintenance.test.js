@@ -21,13 +21,13 @@ import {casinoConst} from './casino-const';
 
 const loginApiUrl = rootUrl + '/security/login';
 
-describe.only('Casino / Maintenance', async function casinoMaintenanceDescribe() {
+describe('Casino / Maintenance', async function casinoMaintenanceDescribe() {
     // eslint-disable-next-line babel/no-invalid-this
     this.timeout(30000e3);
 
-    let browser: Browser = process.mockBrowser;
+    let browser = process.mockBrowser;
 
-    let page: Page = process.mockPage;
+    let page = process.mockPage;
 
     before(async () => {
         const system = await runSystem();

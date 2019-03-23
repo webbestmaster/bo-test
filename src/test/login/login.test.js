@@ -21,9 +21,9 @@ describe('Login', async function login() {
     // eslint-disable-next-line babel/no-invalid-this
     this.timeout(30e3);
 
-    let browser: Browser = process.mockBrowser;
+    let browser = process.mockBrowser;
 
-    let page: Page = process.mockPage;
+    let page = process.mockPage;
 
     beforeEach(async () => {
         const system = await runSystem();
