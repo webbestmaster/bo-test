@@ -20,6 +20,7 @@ import {getSelectValueList, setSelect} from '../../util/select';
 import {providerStaticInfo} from '../../util/provider';
 
 import {casinoConst} from './casino-const';
+import {createCasinoMaintenance} from './util/maintenance';
 
 // import {userLoginData} from './user-data';
 
@@ -74,25 +75,26 @@ describe('Casino / Maintenance', async function casinoMaintenanceDescribe() {
 
         console.log(providerList);
 
-        await setCalendar(page, {
-            selector: 'dateFrom',
-            date: 1,
-            hours: 1,
-            minutes: 5,
-        });
-
-        await setCalendar(page, {
-            selector: 'dateTo',
-            date: 1,
-            hours: 1,
-            minutes: 10,
-        });
-
-        await setSelect(page, {
-            selector: 'provider',
-            value: 'EVOLUTION',
-        });
+        for (let i = 0; i < providerList.length; i += 1) {
+            await createCasinoMaintenance(page, providerList[i]);
+        }
 
         await page.waitFor(60000e3);
+    });
+
+    it('Maintenance create (IFORIUM only)', async () => {
+        await page.goto(rootUrl + casinoConst.url.create);
+
+        await page.waitFor(3e3);
+
+        const iForium = (await getSelectValueList(page, 'provider')).find(
+            (providerName: string): boolean =>
+                providerName === providerStaticInfo.iForium.name
+        );
+
+        if (!iForium) {
+            console.log('IFORIUM not available');
+            return;
+        }
     });
 });
