@@ -17,6 +17,8 @@ import {setCalendar} from '../../util/calendar';
 
 import {getSelectValueList, setSelect} from '../../util/select';
 
+import {providerStaticInfo} from '../../util/provider';
+
 import {casinoConst} from './casino-const';
 
 // import {userLoginData} from './user-data';
@@ -54,8 +56,23 @@ describe('Casino / Maintenance', async function casinoMaintenanceDescribe() {
         assert(tableList.length === 2, 'Page should contains two table');
     });
 
-    it.only('Maintenance create', async () => {
+    it.only('Maintenance create (except IFORIUM)', async () => {
         await page.goto(rootUrl + casinoConst.url.create);
+
+        await page.waitFor(3e3);
+
+        const providerList = (await getSelectValueList(
+            page,
+            'provider'
+        )).filter(
+            (providerName: string): boolean =>
+                Boolean(
+                    providerName &&
+                        providerName !== providerStaticInfo.iForium.name
+                )
+        );
+
+        console.log(providerList);
 
         await setCalendar(page, {
             selector: 'dateFrom',
@@ -70,10 +87,6 @@ describe('Casino / Maintenance', async function casinoMaintenanceDescribe() {
             hours: 1,
             minutes: 10,
         });
-
-        const valueList = await getSelectValueList(page, 'provider');
-
-        console.log(valueList);
 
         await setSelect(page, {
             selector: 'provider',
