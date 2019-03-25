@@ -15,6 +15,8 @@ import {repeat} from '../../util/repeat';
 
 import {setCalendar} from '../../util/calendar';
 
+import {getSelectValueList, setSelect} from '../../util/select';
+
 import {casinoConst} from './casino-const';
 
 // import {userLoginData} from './user-data';
@@ -67,6 +69,15 @@ describe('Casino / Maintenance', async function casinoMaintenanceDescribe() {
             date: 1,
             hours: 1,
             minutes: 10,
+        });
+
+        const valueList = await getSelectValueList(page, 'provider');
+
+        console.log(valueList);
+
+        await setSelect(page, {
+            selector: 'provider',
+            value: 'EVOLUTION',
         });
 
         await page.waitFor(60000e3);
