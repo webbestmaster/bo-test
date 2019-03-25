@@ -20,7 +20,10 @@ import {getSelectValueList, setSelect} from '../../util/select';
 import {providerStaticInfo} from '../../util/provider';
 
 import {casinoConst} from './casino-const';
-import {createCasinoMaintenance} from './util/maintenance';
+import {
+    createCasinoMaintenance,
+    createCasinoMaintenanceIForium,
+} from './util/maintenance';
 
 // import {userLoginData} from './user-data';
 
@@ -57,7 +60,7 @@ describe('Casino / Maintenance', async function casinoMaintenanceDescribe() {
         assert(tableList.length === 2, 'Page should contains two table');
     });
 
-    it.only('Maintenance create (except IFORIUM)', async () => {
+    it('Maintenance create (except IFORIUM)', async () => {
         await page.goto(rootUrl + casinoConst.url.create);
 
         await page.waitFor(3e3);
@@ -73,10 +76,13 @@ describe('Casino / Maintenance', async function casinoMaintenanceDescribe() {
                 )
         );
 
-        console.log(providerList);
-
-        for (let i = 0; i < providerList.length; i += 1) {
-            await createCasinoMaintenance(page, providerList[i]);
+        // eslint-disable-next-line no-loops/no-loops
+        for (
+            let providerIndex = 0;
+            providerIndex < providerList.length;
+            providerIndex += 1
+        ) {
+            await createCasinoMaintenance(page, providerList[providerIndex]);
         }
 
         await page.waitFor(60000e3);
@@ -87,14 +93,38 @@ describe('Casino / Maintenance', async function casinoMaintenanceDescribe() {
 
         await page.waitFor(3e3);
 
-        const iForium = (await getSelectValueList(page, 'provider')).find(
+        const hasIForium = (await getSelectValueList(page, 'provider')).some(
             (providerName: string): boolean =>
                 providerName === providerStaticInfo.iForium.name
         );
 
-        if (!iForium) {
+        if (!hasIForium) {
             console.log('IFORIUM not available');
             return;
+        }
+
+        await setSelect(page, {
+            selector: 'provider',
+            value: providerStaticInfo.iForium.name,
+        });
+
+        const subProviderList = (await getSelectValueList(
+            page,
+            providerStaticInfo.iForium.subProviderKey
+        )).filter((providerName: string): boolean => Boolean(providerName));
+
+        await page.goto(rootUrl + casinoConst.url.root);
+
+        // eslint-disable-next-line no-loops/no-loops
+        for (
+            let providerIndex = 0;
+            providerIndex < subProviderList.length;
+            providerIndex += 1
+        ) {
+            await createCasinoMaintenanceIForium(
+                page,
+                subProviderList[providerIndex]
+            );
         }
     });
 });
