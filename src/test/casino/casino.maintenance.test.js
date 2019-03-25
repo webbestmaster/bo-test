@@ -13,7 +13,7 @@ import {login, loginConst} from '../../action/login';
 import {errorSnackbar} from '../../util/selector';
 import {repeat} from '../../util/repeat';
 
-import {calendarSelect} from '../../util/calendar';
+import {setCalendar} from '../../util/calendar';
 
 import {casinoConst} from './casino-const';
 
@@ -52,17 +52,22 @@ describe('Casino / Maintenance', async function casinoMaintenanceDescribe() {
         assert(tableList.length === 2, 'Page should contains two table');
     });
 
-    xit('Maintenance create', async () => {
+    it.only('Maintenance create', async () => {
         await page.goto(rootUrl + casinoConst.url.create);
 
-        await page.waitForSelector('form', {timeout: 3e3});
+        await setCalendar(page, {
+            selector: 'dateFrom',
+            date: 1,
+            hours: 1,
+            minutes: 5,
+        });
 
-        await page.click('input[name="dateFrom"] + div');
-
-        await page.waitForSelector(calendarSelect.prevButton);
-        await page.click(calendarSelect.prevButton);
-        await page.click(calendarSelect.prevButton);
-        await page.click('[role="presentation"]:nth-child(7)');
+        await setCalendar(page, {
+            selector: 'dateTo',
+            date: 1,
+            hours: 1,
+            minutes: 10,
+        });
 
         await page.waitFor(60000e3);
     });

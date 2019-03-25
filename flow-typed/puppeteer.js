@@ -1,7 +1,19 @@
 // @flow
 
 declare module 'puppeteer' {
-    declare type ElementHandleType = {};
+    declare class KeyBoard {
+        type(charCode: string):Promise<mixed>,
+    }
+
+    declare type ElementHandleClickOptionsType = {
+        button?: 'left' | 'right' | 'middle', // defaults to left
+        clickCount?: number, // defaults to 1
+        delay?: number, // Time to wait between mousedown and mouseup in milliseconds. Defaults to 0.
+    }
+
+    declare type ElementHandleType = {
+        click(options?: ElementHandleClickOptionsType): Promise<mixed>,
+    }
 
     declare type PageScreenshotOptionsType = {
         path: string,
@@ -25,6 +37,7 @@ declare module 'puppeteer' {
     }
 
     declare class Page {
+        keyboard: KeyBoard,
         goto(url: string): Promise<mixed>,
         screenshot(options: PageScreenshotOptionsType): Promise<mixed>,
         click(cssSelector: string): Promise<mixed>,
@@ -34,9 +47,9 @@ declare module 'puppeteer' {
         evaluate<T>(funcOrStringFunc: ((() => T) | string)): Promise<T>,
         url(): string,
         waitFor(timeoutInMs: number): Promise<mixed>,
-        setViewport(size: {width: number, height: number}): Promise<mixed>,
+        setViewport(size: { width: number, height: number }): Promise<mixed>,
         setRequestInterception(isEnable: boolean): Promise<mixed>,
-        on<T>(eventName: string, callback: (context: T)=> mixed): mixed,
+        on<T>(eventName: string, callback: (context: T) => mixed): mixed,
         waitForNavigation(options?: WaitForNavigationOptionType): Promise<mixed>,
         waitForSelector(selector: string, options?: WaitForSelectorOptionType): Promise<?ElementHandleType>,
     }
