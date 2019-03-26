@@ -17,7 +17,7 @@ const tableFirstRowJSQuery = `document.querySelector('${tableFirstRowSelector}')
 export async function createCasinoMaintenance(page: Page, provider: string) {
     const dateObj = new Date();
 
-    const date = dateObj.getDate() - 12;
+    const date = dateObj.getDate() - 15;
     const hours = dateObj.getHours();
     const minutes = dateObj.getMinutes();
 
@@ -50,7 +50,7 @@ export async function createCasinoMaintenance(page: Page, provider: string) {
 
     await page.waitForFunction(
         `${tableFirstRowJSQuery} && ${tableFirstRowJSQuery}.innerText.includes('${provider}')`,
-        {timeout: mainTimeout * 10e3}
+        {timeout: mainTimeout}
     );
 }
 

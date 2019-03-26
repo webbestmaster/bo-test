@@ -1,3 +1,3 @@
 // @flow
 
-export const mainTimeout = 3e3;
+export const mainTimeout = 10e3;

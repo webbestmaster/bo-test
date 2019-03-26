@@ -2,6 +2,8 @@
 
 import type {Browser, InterceptedRequest, Page} from 'puppeteer';
 
+import {mainTimeout} from '../data/timeout';
+
 type SelectOptionsType = {|
     +selector: string,
     +value: string,
@@ -16,7 +18,7 @@ function getWrapperSelector(selector: string): string {
 async function openSelect(page: Page, selector: string) {
     const selectSelector = getWrapperSelector(selector);
 
-    await page.waitForSelector(selectSelector, {timeout: 3e3});
+    await page.waitForSelector(selectSelector, {timeout: mainTimeout});
 
     await page.click(selectSelector);
 
@@ -26,7 +28,7 @@ async function openSelect(page: Page, selector: string) {
 async function selectOption(page: Page, value: string) {
     const optionSelector = `ul[role="listbox"] li[data-value="${value}"]`;
 
-    await page.waitForSelector(optionSelector, {timeout: 3e3});
+    await page.waitForSelector(optionSelector, {timeout: mainTimeout});
 
     await page.click(optionSelector);
 

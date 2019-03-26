@@ -21,7 +21,7 @@ import {
 
 describe('Casino / Maintenance', async function casinoMaintenanceDescribe() {
     // eslint-disable-next-line babel/no-invalid-this
-    this.timeout(30e3);
+    this.timeout(15 * 60e3);
 
     let browser = process.mockBrowser;
 
@@ -74,8 +74,6 @@ describe('Casino / Maintenance', async function casinoMaintenanceDescribe() {
         ) {
             await createCasinoMaintenance(page, providerList[providerIndex]);
         }
-
-        // await page.waitFor(60e3);
     });
 
     it('Maintenance create (IFORIUM only)', async () => {

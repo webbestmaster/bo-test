@@ -11,7 +11,7 @@ export const loginConst = {
         password: 'input[name="password"]',
         singInButton: 'button[type="submit"]',
     },
-    navigationTimeout: 3e3,
+    navigationTimeout: 10e3,
 };
 
 export async function login(page: Page) {

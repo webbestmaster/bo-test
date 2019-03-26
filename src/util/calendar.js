@@ -7,6 +7,8 @@ import type {
     Page,
 } from 'puppeteer';
 
+import {mainTimeout} from '../data/timeout';
+
 import {pressEnter} from './keyboard';
 
 const calendarSelect = {
@@ -23,7 +25,7 @@ const calendarAnimationTime = 500;
 async function openCalendar(page: Page, dateType: CalendarSelectorDateType) {
     const dateInputSelector = `input[name='${dateType}'] + div`;
 
-    await page.waitForSelector(dateInputSelector, {timeout: 3e3});
+    await page.waitForSelector(dateInputSelector, {timeout: mainTimeout});
 
     await page.click(dateInputSelector);
 
