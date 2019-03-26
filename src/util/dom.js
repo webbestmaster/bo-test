@@ -2,11 +2,12 @@
 
 import type {
     Browser,
-    Page,
-    InterceptedRequest,
     ElementHandleType,
+    InterceptedRequest,
+    Page,
 } from 'puppeteer';
 
+/*
 export async function domGetHtml(
     page: Page,
     selector: string
@@ -34,3 +35,4 @@ export async function domGetAttribute(
         `document.querySelector('${selector}').getAttribute('${attribute}');`
     );
 }
+*/

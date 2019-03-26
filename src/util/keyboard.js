@@ -1,6 +1,6 @@
 // @flow
 
-import type {Browser, Page, InterceptedRequest} from 'puppeteer';
+import type {Browser, InterceptedRequest, Page} from 'puppeteer';
 
 export async function pressEnter(page: Page) {
     const enterKeyCharCode = 13;

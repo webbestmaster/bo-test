@@ -36,6 +36,11 @@ declare module 'puppeteer' {
         hidden?: boolean,
     }
 
+    declare type WaitForFunctionOptionType = {
+        polling?: string | number,
+        timeout?: number,
+    }
+
     declare class Page {
         keyboard: KeyBoard,
         goto(url: string): Promise<mixed>,
@@ -47,6 +52,7 @@ declare module 'puppeteer' {
         evaluate<T>(funcOrStringFunc: ((() => T) | string)): Promise<T>,
         url(): string,
         waitFor(timeoutInMs: number): Promise<mixed>,
+        waitForFunction(pageFunction: string, options: WaitForFunctionOptionType): Promise<mixed>,
         setViewport(size: { width: number, height: number }): Promise<mixed>,
         setRequestInterception(isEnable: boolean): Promise<mixed>,
         on<T>(eventName: string, callback: (context: T) => mixed): mixed,

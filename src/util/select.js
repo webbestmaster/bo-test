@@ -1,8 +1,6 @@
 // @flow
 
-import type {Browser, Page, InterceptedRequest} from 'puppeteer';
-
-// import {pressEsc, pressTab} from './keyboard';
+import type {Browser, InterceptedRequest, Page} from 'puppeteer';
 
 type SelectOptionsType = {|
     +selector: string,

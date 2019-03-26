@@ -2,9 +2,9 @@
 
 import type {
     Browser,
-    Page,
-    InterceptedRequest,
     ElementHandleType,
+    InterceptedRequest,
+    Page,
 } from 'puppeteer';
 
 import {pressEnter} from './keyboard';

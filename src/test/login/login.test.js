@@ -4,8 +4,8 @@
 
 import assert from 'assert';
 
-import {describe, it, xit, before, after, beforeEach, afterEach} from 'mocha';
-import type {Browser, Page, InterceptedRequest} from 'puppeteer';
+import {afterEach, beforeEach, describe, it} from 'mocha';
+import type {Browser, InterceptedRequest, Page} from 'puppeteer';
 
 import {runSystem} from '../../action/run-system';
 import {appConst, rootUrl} from '../../const';

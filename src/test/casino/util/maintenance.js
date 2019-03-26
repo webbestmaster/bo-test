@@ -7,13 +7,17 @@ import {casinoConst} from '../casino-const';
 import {setCalendar} from '../../../util/calendar';
 import {setSelect} from '../../../util/select';
 import {buttonCreate} from '../../../util/selector';
-import {loginConst} from '../../../action/login';
 import {providerStaticInfo} from '../../../data/provider';
+import {mainTimeout} from '../../../data/timeout';
+
+const tableSelector = '[data-at-table-name="casino-maintenance"]';
+const tableFirstRowSelector = `${tableSelector} tbody tr`;
+const tableFirstRowJSQuery = `document.querySelector('${tableFirstRowSelector}')`;
 
 export async function createCasinoMaintenance(page: Page, provider: string) {
     const dateObj = new Date();
 
-    const date = dateObj.getDate() - 2;
+    const date = dateObj.getDate() - 12;
     const hours = dateObj.getHours();
     const minutes = dateObj.getMinutes();
 
@@ -40,16 +44,26 @@ export async function createCasinoMaintenance(page: Page, provider: string) {
 
     await page.click(buttonCreate);
 
-    await page.waitForNavigation({timeout: loginConst.navigationTimeout});
+    await page.waitForNavigation({timeout: mainTimeout});
+
+    await page.goto(rootUrl + casinoConst.url.root);
+
+    await page.waitForFunction(
+        `${tableFirstRowJSQuery} && ${tableFirstRowJSQuery}.innerText.includes('${provider}')`,
+        {timeout: mainTimeout * 10e3}
+    );
 }
 
 export async function createCasinoMaintenanceIForium(
     page: Page,
     subProvider: string
 ) {
+    const iForiumName = providerStaticInfo.iForium.name;
+    const iForiumSubProviderKey = providerStaticInfo.iForium.subProviderKey;
+
     const dateObj = new Date();
 
-    const date = dateObj.getDate() - 3;
+    const date = dateObj.getDate() - 12;
     const hours = dateObj.getHours();
     const minutes = dateObj.getMinutes();
 
@@ -71,15 +85,22 @@ export async function createCasinoMaintenanceIForium(
 
     await setSelect(page, {
         selector: 'provider',
-        value: providerStaticInfo.iForium.name,
+        value: iForiumName,
     });
 
     await setSelect(page, {
-        selector: providerStaticInfo.iForium.subProviderKey,
+        selector: iForiumSubProviderKey,
         value: subProvider,
     });
 
     await page.click(buttonCreate);
 
-    await page.waitForNavigation({timeout: loginConst.navigationTimeout});
+    await page.waitForNavigation({timeout: mainTimeout});
+
+    await page.goto(rootUrl + casinoConst.url.root);
+
+    await page.waitForFunction(
+        `${tableFirstRowJSQuery} && ${tableFirstRowJSQuery}.innerText.includes('${iForiumName} (${subProvider})')`,
+        {timeout: mainTimeout}
+    );
 }
