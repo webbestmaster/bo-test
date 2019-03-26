@@ -13,6 +13,8 @@ import {login} from '../../action/login';
 import {getSelectValueList, setSelect} from '../../util/select';
 import {providerStaticInfo} from '../../data/provider';
 
+import {mainTimeout} from '../../data/timeout';
+
 import {casinoConst} from './casino-const';
 import {
     createCasinoMaintenance,
@@ -41,9 +43,11 @@ describe('Casino / Maintenance', async function casinoMaintenanceDescribe() {
     });
 
     it('Both table exists', async () => {
-        await page.goto(rootUrl + casinoConst.url.root);
+        await page.goto(rootUrl + casinoConst.url.root, {
+            waitUntil: ['networkidle0'],
+        });
 
-        await page.waitForSelector('table', {timeout: 3e3});
+        await page.waitForSelector('table', {timeout: mainTimeout});
 
         const tableList = await page.$$('table');
 
@@ -51,9 +55,9 @@ describe('Casino / Maintenance', async function casinoMaintenanceDescribe() {
     });
 
     it('Maintenance create (except IFORIUM)', async () => {
-        await page.goto(rootUrl + casinoConst.url.create);
-
-        await page.waitFor(3e3);
+        await page.goto(rootUrl + casinoConst.url.create, {
+            waitUntil: ['networkidle0'],
+        });
 
         const providerList = (await getSelectValueList(
             page,
@@ -76,10 +80,10 @@ describe('Casino / Maintenance', async function casinoMaintenanceDescribe() {
         }
     });
 
-    it('Maintenance create (IFORIUM only)', async () => {
-        await page.goto(rootUrl + casinoConst.url.create);
-
-        await page.waitFor(3e3);
+    it.only('Maintenance create (IFORIUM only)', async () => {
+        await page.goto(rootUrl + casinoConst.url.create, {
+            waitUntil: ['networkidle0'],
+        });
 
         const hasIForium = (await getSelectValueList(page, 'provider')).some(
             (providerName: string): boolean =>

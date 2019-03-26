@@ -2,7 +2,7 @@
 
 declare module 'puppeteer' {
     declare class KeyBoard {
-        type(charCode: string):Promise<mixed>,
+        type(charCode: string): Promise<mixed>,
     }
 
     declare type ElementHandleClickOptionsType = {
@@ -41,9 +41,13 @@ declare module 'puppeteer' {
         timeout?: number,
     }
 
+    declare type GotoOptionType = {
+        waitUntil?: Array<'load' | 'domcontentloaded' | 'networkidle0' | 'networkidle2'>,
+    }
+
     declare class Page {
         keyboard: KeyBoard,
-        goto(url: string): Promise<mixed>,
+        goto(url: string, options?: GotoOptionType): Promise<mixed>,
         screenshot(options: PageScreenshotOptionsType): Promise<mixed>,
         click(cssSelector: string): Promise<mixed>,
         type(cssSelector: string, text: string): Promise<mixed>,

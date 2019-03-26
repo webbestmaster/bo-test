@@ -17,7 +17,7 @@ const tableFirstRowJSQuery = `document.querySelector('${tableFirstRowSelector}')
 export async function createCasinoMaintenance(page: Page, provider: string) {
     const dateObj = new Date();
 
-    const date = dateObj.getDate() - 15;
+    const date = dateObj.getDate() - 3;
     const hours = dateObj.getHours();
     const minutes = dateObj.getMinutes();
 
@@ -63,7 +63,7 @@ export async function createCasinoMaintenanceIForium(
 
     const dateObj = new Date();
 
-    const date = dateObj.getDate() - 12;
+    const date = dateObj.getDate() - 14;
     const hours = dateObj.getHours();
     const minutes = dateObj.getMinutes();
 
@@ -100,7 +100,7 @@ export async function createCasinoMaintenanceIForium(
     await page.goto(rootUrl + casinoConst.url.root);
 
     await page.waitForFunction(
-        `${tableFirstRowJSQuery} && ${tableFirstRowJSQuery}.innerText.includes('${iForiumName} (${subProvider})')`,
+        `${tableFirstRowJSQuery} && ${tableFirstRowJSQuery}.innerText.includes('${iForiumName} (')`,
         {timeout: mainTimeout}
     );
 }
