@@ -49,16 +49,22 @@ export async function setSelect(page: Page, options: SelectOptionsType) {
     await selectOption(page, options.value);
 }
 
+export type SelectOptionType = {|
+    +value: string,
+    +text: string,
+|};
+
 export async function getSelectValueList(
     page: Page,
     selector: string
-): Promise<Array<string>> {
+): Promise<Array<SelectOptionType>> {
     await openSelect(page, selector);
 
     const optionSelector = 'ul[role="listbox"] li[data-value]';
 
-    const optionList = await page.evaluate<Array<string>>(
-        `Array.from(document.querySelectorAll('${optionSelector}')).map(elem => elem.dataset.value);`
+    const optionList = await page.evaluate<Array<SelectOptionType>>(
+        `Array.from(document.querySelectorAll('${optionSelector}'))
+            .map(elem => ({value: elem.dataset.value, text: elem.innerText}));`
     );
 
     await closeSelect(page, selector);

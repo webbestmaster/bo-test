@@ -73,7 +73,8 @@ async function setCalendarTime(page: Page, hours: number, minutes: number) {
         await minuteElemToClick.click();
         await page.waitFor(calendarAnimationTime);
     } else {
-        throw new Error('Minute elem to click is not exists');
+        console.error('Minute elem to click is not exists');
+        // throw new Error('Minute elem to click is not exists');
     }
 }
 

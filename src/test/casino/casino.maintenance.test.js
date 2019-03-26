@@ -15,6 +15,8 @@ import {providerStaticInfo} from '../../data/provider';
 
 import {mainTimeout} from '../../data/timeout';
 
+import type {SelectOptionType} from '../../util/select';
+
 import {casinoConst} from './casino-const';
 import {
     createCasinoMaintenance,
@@ -63,10 +65,10 @@ describe('Casino / Maintenance', async function casinoMaintenanceDescribe() {
             page,
             'provider'
         )).filter(
-            (providerName: string): boolean =>
+            (providerData: SelectOptionType): boolean =>
                 Boolean(
-                    providerName &&
-                        providerName !== providerStaticInfo.iForium.name
+                    providerData.value &&
+                        providerData.value !== providerStaticInfo.iForium.name
                 )
         );
 
@@ -86,8 +88,8 @@ describe('Casino / Maintenance', async function casinoMaintenanceDescribe() {
         });
 
         const hasIForium = (await getSelectValueList(page, 'provider')).some(
-            (providerName: string): boolean =>
-                providerName === providerStaticInfo.iForium.name
+            (providerData: SelectOptionType): boolean =>
+                providerData.value === providerStaticInfo.iForium.name
         );
 
         if (!hasIForium) {
@@ -103,7 +105,10 @@ describe('Casino / Maintenance', async function casinoMaintenanceDescribe() {
         const subProviderList = (await getSelectValueList(
             page,
             providerStaticInfo.iForium.subProviderKey
-        )).filter((providerName: string): boolean => Boolean(providerName));
+        )).filter(
+            (providerData: SelectOptionType): boolean =>
+                Boolean(providerData.value)
+        );
 
         await page.goto(rootUrl + casinoConst.url.root);
 
