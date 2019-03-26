@@ -15,13 +15,15 @@ const tableSelector = '[data-at-table-name="casino-maintenance"]';
 const tableFirstRowSelector = `${tableSelector} tbody tr`;
 const tableFirstRowJSQuery = `document.querySelector('${tableFirstRowSelector}')`;
 
+const dateShift = -18;
+
 export async function createCasinoMaintenance(
     page: Page,
     providerData: SelectOptionType
 ) {
     const dateObj = new Date();
 
-    const date = dateObj.getDate() - 3;
+    const date = dateObj.getDate() + dateShift;
     const hours = dateObj.getHours();
     const minutes = dateObj.getMinutes();
 
@@ -69,7 +71,7 @@ export async function createCasinoMaintenanceIForium(
 
     const dateObj = new Date();
 
-    const date = dateObj.getDate() - 15;
+    const date = dateObj.getDate() + dateShift;
     const hours = dateObj.getHours();
     const minutes = dateObj.getMinutes();
 

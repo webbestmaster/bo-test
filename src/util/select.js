@@ -56,7 +56,8 @@ export type SelectOptionType = {|
 
 export async function getSelectValueList(
     page: Page,
-    selector: string
+    selector: string,
+    needKeepEmpty?: boolean
 ): Promise<Array<SelectOptionType>> {
     await openSelect(page, selector);
 
@@ -68,6 +69,13 @@ export async function getSelectValueList(
     );
 
     await closeSelect(page, selector);
+
+    if (needKeepEmpty !== true) {
+        return optionList.filter(
+            (providerData: SelectOptionType): boolean =>
+                Boolean(providerData.value)
+        );
+    }
 
     return optionList;
 }

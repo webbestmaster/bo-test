@@ -61,28 +61,17 @@ describe('Casino / Maintenance', async function casinoMaintenanceDescribe() {
             waitUntil: ['networkidle0'],
         });
 
-        const providerList = (await getSelectValueList(
-            page,
-            'provider'
-        )).filter(
-            (providerData: SelectOptionType): boolean =>
-                Boolean(
-                    providerData.value &&
-                        providerData.value !== providerStaticInfo.iForium.name
-                )
-        );
+        const providerList = await getSelectValueList(page, 'provider');
 
         // eslint-disable-next-line no-loops/no-loops
-        for (
-            let providerIndex = 0;
-            providerIndex < providerList.length;
-            providerIndex += 1
-        ) {
-            await createCasinoMaintenance(page, providerList[providerIndex]);
+        for (const provider of providerList) {
+            if (provider.value !== providerStaticInfo.iForium.name) {
+                await createCasinoMaintenance(page, provider);
+            }
         }
     });
 
-    it.only('Maintenance create (IFORIUM only)', async () => {
+    it('Maintenance create (IFORIUM only)', async () => {
         await page.goto(rootUrl + casinoConst.url.create, {
             waitUntil: ['networkidle0'],
         });
@@ -102,26 +91,16 @@ describe('Casino / Maintenance', async function casinoMaintenanceDescribe() {
             value: providerStaticInfo.iForium.name,
         });
 
-        const subProviderList = (await getSelectValueList(
+        const subProviderList = await getSelectValueList(
             page,
             providerStaticInfo.iForium.subProviderKey
-        )).filter(
-            (providerData: SelectOptionType): boolean =>
-                Boolean(providerData.value)
         );
 
         await page.goto(rootUrl + casinoConst.url.root);
 
         // eslint-disable-next-line no-loops/no-loops
-        for (
-            let providerIndex = 0;
-            providerIndex < subProviderList.length;
-            providerIndex += 1
-        ) {
-            await createCasinoMaintenanceIForium(
-                page,
-                subProviderList[providerIndex]
-            );
+        for (const subProvider of subProviderList) {
+            await createCasinoMaintenanceIForium(page, subProvider);
         }
     });
 });
