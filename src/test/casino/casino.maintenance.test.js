@@ -12,12 +12,9 @@ import {appConst, rootUrl} from '../../const';
 import {login, loginConst} from '../../action/login';
 import {errorSnackbar} from '../../util/selector';
 import {repeat} from '../../util/repeat';
-
 import {setCalendar} from '../../util/calendar';
-
 import {getSelectValueList, setSelect} from '../../util/select';
-
-import {providerStaticInfo} from '../../util/provider';
+import {providerStaticInfo} from '../../data/provider';
 
 import {casinoConst} from './casino-const';
 import {

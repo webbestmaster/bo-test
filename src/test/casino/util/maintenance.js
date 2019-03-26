@@ -8,7 +8,7 @@ import {setCalendar} from '../../../util/calendar';
 import {setSelect} from '../../../util/select';
 import {buttonCreate} from '../../../util/selector';
 import {loginConst} from '../../../action/login';
-import {providerStaticInfo} from '../../../util/provider';
+import {providerStaticInfo} from '../../../data/provider';
 
 export async function createCasinoMaintenance(page: Page, provider: string) {
     const dateObj = new Date();
