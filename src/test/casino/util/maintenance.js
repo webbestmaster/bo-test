@@ -62,6 +62,13 @@ export async function createCasinoMaintenance(
     );
 }
 
+export async function editCasinoMaintenance(
+    page: Page,
+    providerData: SelectOptionType
+) {
+    console.warn('editCasinoMaintenance is not implemented!');
+}
+
 export async function createCasinoMaintenanceIForium(
     page: Page,
     subProviderData: SelectOptionType
@@ -115,4 +122,11 @@ export async function createCasinoMaintenanceIForium(
         `,
         {timeout: mainTimeout}
     );
+}
+
+export async function editCasinoMaintenanceIForium(
+    page: Page,
+    providerData: SelectOptionType
+) {
+    console.warn('editCasinoMaintenanceIForium is not implemented!');
 }

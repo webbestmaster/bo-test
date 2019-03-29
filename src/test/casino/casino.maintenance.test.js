@@ -21,6 +21,8 @@ import {casinoConst} from './casino-const';
 import {
     createCasinoMaintenance,
     createCasinoMaintenanceIForium,
+    editCasinoMaintenance,
+    editCasinoMaintenanceIForium,
 } from './util/maintenance';
 
 describe('Casino / Maintenance', async function casinoMaintenanceDescribe() {
@@ -67,6 +69,7 @@ describe('Casino / Maintenance', async function casinoMaintenanceDescribe() {
         for (const provider of providerList) {
             if (provider.value !== providerStaticInfo.iForium.name) {
                 await createCasinoMaintenance(page, provider);
+                await editCasinoMaintenance(page, provider);
             }
         }
     });
@@ -101,6 +104,7 @@ describe('Casino / Maintenance', async function casinoMaintenanceDescribe() {
         // eslint-disable-next-line no-loops/no-loops
         for (const subProvider of subProviderList) {
             await createCasinoMaintenanceIForium(page, subProvider);
+            await editCasinoMaintenanceIForium(page, subProvider);
         }
     });
 });

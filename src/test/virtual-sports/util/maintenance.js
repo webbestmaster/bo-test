@@ -60,3 +60,10 @@ export async function createVirtualSportsMaintenance(
         {timeout: mainTimeout}
     );
 }
+
+export async function editVirtualSportsMaintenance(
+    page: Page,
+    providerData: SelectOptionType
+) {
+    console.warn('editVirtualSportsMaintenance is not implemented!');
+}

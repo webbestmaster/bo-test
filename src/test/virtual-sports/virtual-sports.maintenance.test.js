@@ -15,7 +15,10 @@ import {providerStaticInfo} from '../../data/provider';
 import {mainTimeout} from '../../data/timeout';
 
 import {virtualSportsConst} from './virtual-sports-const';
-import {createVirtualSportsMaintenance} from './util/maintenance';
+import {
+    createVirtualSportsMaintenance,
+    editVirtualSportsMaintenance,
+} from './util/maintenance';
 
 describe('Virtual Sports / Maintenance', async function virtualSportsMaintenanceDescribe() {
     // eslint-disable-next-line babel/no-invalid-this
@@ -61,6 +64,7 @@ describe('Virtual Sports / Maintenance', async function virtualSportsMaintenance
         for (const provider of providerList) {
             if (provider.value !== providerStaticInfo.iForium.name) {
                 await createVirtualSportsMaintenance(page, provider);
+                await editVirtualSportsMaintenance(page, provider);
             }
         }
     });
