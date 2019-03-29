@@ -39,10 +39,10 @@ async function setCalendarDate(page: Page, date: number) {
         'div[role="presentation"] button[tabindex="0"] span:not(:empty)'
     );
 
-    const dateElemToClick = dateElementHandleList[date - 1];
+    const dateElementToClick = dateElementHandleList[date - 1];
 
-    if (dateElemToClick) {
-        await dateElemToClick.click();
+    if (dateElementToClick) {
+        await dateElementToClick.click();
         await page.waitFor(calendarAnimationTime);
         return;
     }
@@ -55,10 +55,10 @@ async function setCalendarTime(page: Page, hours: number, minutes: number) {
         'span[style^="transform: translate("'
     );
 
-    const hourElemToClick = hoursElementHandleList[hours];
+    const hourElementToClick = hoursElementHandleList[hours];
 
-    if (hourElemToClick) {
-        await hourElemToClick.click();
+    if (hourElementToClick) {
+        await hourElementToClick.click();
         await page.waitFor(calendarAnimationTime);
     } else {
         throw new Error('Hour elem to click is not exists');
@@ -67,10 +67,11 @@ async function setCalendarTime(page: Page, hours: number, minutes: number) {
     const minutesElementHandleList = await page.$$(
         'span[style^="transform: translate("'
     );
-    const minuteElemToClick = minutesElementHandleList[Math.floor(minutes / 5)];
+    const minuteElementToClick =
+        minutesElementHandleList[Math.floor(minutes / 5)];
 
-    if (minuteElemToClick) {
-        await minuteElemToClick.click();
+    if (minuteElementToClick) {
+        await minuteElementToClick.click();
         await page.waitFor(calendarAnimationTime);
     } else {
         console.error('Minute elem to click is not exists');

@@ -21,11 +21,11 @@ export async function createCasinoMaintenance(
     page: Page,
     providerData: SelectOptionType
 ) {
-    const dateObj = new Date();
+    const dateObject = new Date();
 
-    const date = dateObj.getDate() + dateShift;
-    const hours = dateObj.getHours();
-    const minutes = dateObj.getMinutes();
+    const date = dateObject.getDate() + dateShift;
+    const hours = dateObject.getHours();
+    const minutes = dateObject.getMinutes();
 
     await page.goto(rootUrl + casinoConst.url.create);
 
@@ -69,11 +69,11 @@ export async function createCasinoMaintenanceIForium(
     const iForiumName = providerStaticInfo.iForium.name;
     const iForiumSubProviderKey = providerStaticInfo.iForium.subProviderKey;
 
-    const dateObj = new Date();
+    const dateObject = new Date();
 
-    const date = dateObj.getDate() + dateShift;
-    const hours = dateObj.getHours();
-    const minutes = dateObj.getMinutes();
+    const date = dateObject.getDate() + dateShift;
+    const hours = dateObject.getHours();
+    const minutes = dateObject.getMinutes();
 
     await page.goto(rootUrl + casinoConst.url.create);
 
