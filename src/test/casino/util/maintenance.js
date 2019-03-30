@@ -66,7 +66,7 @@ export async function editCasinoMaintenance(
     page: Page,
     providerData: SelectOptionType
 ) {
-    console.warn('editCasinoMaintenance is not implemented!');
+    console.warn('edit and remove CasinoMaintenance is not implemented!');
 }
 
 export async function createCasinoMaintenanceIForium(
@@ -128,5 +128,7 @@ export async function editCasinoMaintenanceIForium(
     page: Page,
     providerData: SelectOptionType
 ) {
-    console.warn('editCasinoMaintenanceIForium is not implemented!');
+    console.warn(
+        'edit and remove CasinoMaintenanceIForium is not implemented!'
+    );
 }

@@ -65,5 +65,7 @@ export async function editVirtualSportsMaintenance(
     page: Page,
     providerData: SelectOptionType
 ) {
-    console.warn('editVirtualSportsMaintenance is not implemented!');
+    console.warn(
+        'edit and remove VirtualSportsMaintenance is not implemented!'
+    );
 }
