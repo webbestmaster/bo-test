@@ -7,11 +7,11 @@ type UserLoginDataType = {|
 
 export const userLoginData: { +[key: string]: UserLoginDataType } = {
     usual: {
-        login: 'admin',
-        password: 'admin',
+        login: '',
+        password: '',
     },
     specSymbol: {
-        login: 'qwe!@#$%^&*()',
-        password: 'qwe!@#$%^&*()',
+        login: '',
+        password: '',
     },
 };
