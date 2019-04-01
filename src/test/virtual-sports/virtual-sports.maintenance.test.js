@@ -11,14 +11,10 @@ import {runSystem} from '../../action/run-system';
 import {rootUrl} from '../../const';
 import {login} from '../../action/login';
 import {getSelectValueList} from '../../util/select';
-import {providerStaticInfo} from '../../data/provider';
 import {mainTimeout} from '../../data/timeout';
 
 import {virtualSportsConst} from './virtual-sports-const';
-import {
-    createVirtualSportsMaintenance,
-    editVirtualSportsMaintenance,
-} from './util/maintenance';
+import {checkVirtualSportsMaintenance} from './util/maintenance';
 
 describe('Virtual Sports / Maintenance', async function virtualSportsMaintenanceDescribe() {
     // eslint-disable-next-line babel/no-invalid-this
@@ -62,10 +58,7 @@ describe('Virtual Sports / Maintenance', async function virtualSportsMaintenance
 
         // eslint-disable-next-line no-loops/no-loops
         for (const provider of providerList) {
-            if (provider.value !== providerStaticInfo.iForium.name) {
-                await createVirtualSportsMaintenance(page, provider);
-                await editVirtualSportsMaintenance(page, provider);
-            }
+            await checkVirtualSportsMaintenance(page, provider);
         }
     });
 });

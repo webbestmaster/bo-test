@@ -7,6 +7,15 @@ import type {
     Page,
 } from 'puppeteer';
 
+export function domFunctionTextIncludes(
+    cssSelector: string,
+    text: string
+): string {
+    const jsSelector = `document.querySelector('${cssSelector}')`;
+
+    return `${jsSelector} && ${jsSelector}.innerText.includes('${text}')`;
+}
+
 /*
 export async function domGetHtml(
     page: Page,

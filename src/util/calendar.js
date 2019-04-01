@@ -20,6 +20,12 @@ const calendarSelect = {
 
 type CalendarSelectorDateType = "dateFrom" | "dateTo";
 
+export type TimeType = {|
+    +date: number,
+    +hour: number,
+    +minute: number,
+|};
+
 const calendarAnimationTime = 500;
 
 async function openCalendar(page: Page, dateType: CalendarSelectorDateType) {
@@ -50,12 +56,12 @@ async function setCalendarDate(page: Page, date: number) {
     throw new Error('Date is not exists');
 }
 
-async function setCalendarTime(page: Page, hours: number, minutes: number) {
+async function setCalendarTime(page: Page, hour: number, minute: number) {
     const hoursElementHandleList = await page.$$(
         'span[style^="transform: translate("'
     );
 
-    const hourElementToClick = hoursElementHandleList[hours];
+    const hourElementToClick = hoursElementHandleList[hour];
 
     if (hourElementToClick) {
         await hourElementToClick.click();
@@ -67,8 +73,7 @@ async function setCalendarTime(page: Page, hours: number, minutes: number) {
     const minutesElementHandleList = await page.$$(
         'span[style^="transform: translate("'
     );
-    const minuteElementToClick =
-        minutesElementHandleList[Math.floor(minutes / 5)];
+    const minuteElementToClick = minutesElementHandleList[minute / 5];
 
     if (minuteElementToClick) {
         await minuteElementToClick.click();
@@ -83,8 +88,8 @@ type CalendarDateOptionsType = {|
     +selector: CalendarSelectorDateType,
     +monthShift?: number,
     +date: number,
-    +hours: number,
-    +minutes: number,
+    +hour: number,
+    +minute: number,
 |};
 
 export async function setCalendar(
@@ -94,9 +99,22 @@ export async function setCalendar(
     await openCalendar(page, options.selector);
 
     await setCalendarDate(page, options.date);
-    await setCalendarTime(page, options.hours, options.minutes);
+    await setCalendarTime(page, options.hour, options.minute);
 
     await pressEnter(page);
 
     await page.waitFor(calendarAnimationTime);
+}
+
+export function timeToString(time: TimeType): string {
+    const dateObject = new Date();
+
+    const year = dateObject.getFullYear();
+    const month = String(dateObject.getMonth() + 1).padStart(2, '0');
+
+    const date = String(time.date).padStart(2, '0');
+    const hour = String(time.hour).padStart(2, '0');
+    const minute = String(time.minute).padStart(2, '0');
+
+    return `${year}-${month}-${date} ${hour}:${minute}`;
 }

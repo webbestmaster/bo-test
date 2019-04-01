@@ -9,6 +9,7 @@ import {setCalendar, timeToString} from '../../../util/calendar';
 import type {SelectOptionType} from '../../../util/select';
 import {setSelect} from '../../../util/select';
 import {buttonCreate, buttonUpdate} from '../../../util/selector';
+import {providerStaticInfo} from '../../../data/provider';
 import {mainTimeout} from '../../../data/timeout';
 import {domFunctionTextIncludes} from '../../../util/dom';
 
@@ -17,7 +18,7 @@ const tableFirstRowSelector = `${tableSelector} tbody tr`;
 
 const dateShift = -0;
 
-export async function checkCasinoMaintenance(
+export async function checkCasinoMaintenanceIForium(
     page: Page,
     providerData: SelectOptionType
 ) {
@@ -39,7 +40,7 @@ export async function checkCasinoMaintenance(
         minute: Math.floor(minute / 5) * 5 + 5,
     };
 
-    await createCasinoMaintenance(
+    await createCasinoMaintenanceIForium(
         page,
         providerData,
         timeCreateStart,
@@ -58,15 +59,23 @@ export async function checkCasinoMaintenance(
         minute: Math.floor(minute / 5) * 5 + 10,
     };
 
-    await editCasinoMaintenance(page, providerData, timeEditStart, timeEditEnd);
+    await editCasinoMaintenanceIForium(
+        page,
+        providerData,
+        timeEditStart,
+        timeEditEnd
+    );
 }
 
-async function createCasinoMaintenance(
+export async function createCasinoMaintenanceIForium(
     page: Page,
-    providerData: SelectOptionType,
+    subProviderData: SelectOptionType,
     timeStart: TimeType,
     timeEnd: TimeType
 ) {
+    const iForiumName = providerStaticInfo.iForium.name;
+    const iForiumSubProviderKey = providerStaticInfo.iForium.subProviderKey;
+
     await page.goto(rootUrl + casinoConst.url.create, {
         waitUntil: ['networkidle0'],
     });
@@ -77,7 +86,12 @@ async function createCasinoMaintenance(
 
     await setSelect(page, {
         selector: 'provider',
-        value: providerData.value,
+        value: iForiumName,
+    });
+
+    await setSelect(page, {
+        selector: iForiumSubProviderKey,
+        value: subProviderData.value,
     });
 
     await page.click(buttonCreate);
@@ -89,7 +103,15 @@ async function createCasinoMaintenance(
     });
 
     await page.waitForFunction(
-        domFunctionTextIncludes(tableFirstRowSelector, providerData.value),
+        domFunctionTextIncludes(tableFirstRowSelector, iForiumName),
+        {timeout: mainTimeout}
+    );
+
+    await page.waitForFunction(
+        domFunctionTextIncludes(
+            tableFirstRowSelector,
+            `(${subProviderData.text})`
+        ),
         {timeout: mainTimeout}
     );
 
@@ -104,12 +126,15 @@ async function createCasinoMaintenance(
     );
 }
 
-async function editCasinoMaintenance(
+export async function editCasinoMaintenanceIForium(
     page: Page,
-    providerData: SelectOptionType,
+    subProviderData: SelectOptionType,
     timeStart: TimeType,
     timeEnd: TimeType
 ) {
+    const iForiumName = providerStaticInfo.iForium.name;
+    const iForiumSubProviderKey = providerStaticInfo.iForium.subProviderKey;
+
     await page.goto(rootUrl + casinoConst.url.root, {
         waitUntil: ['networkidle0'],
     });
@@ -127,7 +152,15 @@ async function editCasinoMaintenance(
     await page.waitForNavigation({timeout: mainTimeout});
 
     await page.waitForFunction(
-        domFunctionTextIncludes(tableFirstRowSelector, providerData.value),
+        domFunctionTextIncludes(tableFirstRowSelector, iForiumName),
+        {timeout: mainTimeout}
+    );
+
+    await page.waitForFunction(
+        domFunctionTextIncludes(
+            tableFirstRowSelector,
+            `(${subProviderData.text})`
+        ),
         {timeout: mainTimeout}
     );
 

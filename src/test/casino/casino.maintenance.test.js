@@ -10,20 +10,14 @@ import type {Browser, InterceptedRequest, Page} from 'puppeteer';
 import {runSystem} from '../../action/run-system';
 import {rootUrl} from '../../const';
 import {login} from '../../action/login';
+import type {SelectOptionType} from '../../util/select';
 import {getSelectValueList, setSelect} from '../../util/select';
 import {providerStaticInfo} from '../../data/provider';
-
 import {mainTimeout} from '../../data/timeout';
 
-import type {SelectOptionType} from '../../util/select';
-
 import {casinoConst} from './casino-const';
-import {
-    createCasinoMaintenance,
-    createCasinoMaintenanceIForium,
-    editCasinoMaintenance,
-    editCasinoMaintenanceIForium,
-} from './util/maintenance';
+import {checkCasinoMaintenance} from './util/maintenance';
+import {checkCasinoMaintenanceIForium} from './util/maintenance-iforium';
 
 describe('Casino / Maintenance', async function casinoMaintenanceDescribe() {
     // eslint-disable-next-line babel/no-invalid-this
@@ -68,8 +62,7 @@ describe('Casino / Maintenance', async function casinoMaintenanceDescribe() {
         // eslint-disable-next-line no-loops/no-loops
         for (const provider of providerList) {
             if (provider.value !== providerStaticInfo.iForium.name) {
-                await createCasinoMaintenance(page, provider);
-                await editCasinoMaintenance(page, provider);
+                await checkCasinoMaintenance(page, provider);
             }
         }
     });
@@ -99,12 +92,13 @@ describe('Casino / Maintenance', async function casinoMaintenanceDescribe() {
             providerStaticInfo.iForium.subProviderKey
         );
 
-        await page.goto(rootUrl + casinoConst.url.root);
+        await page.goto(rootUrl + casinoConst.url.root, {
+            waitUntil: ['networkidle0'],
+        });
 
         // eslint-disable-next-line no-loops/no-loops
         for (const subProvider of subProviderList) {
-            await createCasinoMaintenanceIForium(page, subProvider);
-            await editCasinoMaintenanceIForium(page, subProvider);
+            await checkCasinoMaintenanceIForium(page, subProvider);
         }
     });
 });
