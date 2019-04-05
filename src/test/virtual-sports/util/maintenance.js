@@ -72,7 +72,7 @@ async function createVirtualSportsMaintenance(
     timeStart: TimeType,
     timeEnd: TimeType
 ) {
-    await page.goto(rootUrl + virtualSportsConst.url.create, {
+    await page.goto(rootUrl + virtualSportsConst.url.maintenance.create, {
         waitUntil: ['networkidle0'],
     });
 

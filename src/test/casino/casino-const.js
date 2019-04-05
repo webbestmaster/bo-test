@@ -3,6 +3,12 @@
 export const casinoConst = {
     url: {
         root: '/#/casino/maintenance',
-        create: '/#/casino/maintenance/create',
+        maintenance: {
+            create: '/#/casino/maintenance/create',
+        },
+        playNGo: {
+            root: '/#/casino/playngo/games',
+            create: '/#/casino/playngo/games/create',
+        },
     },
 };

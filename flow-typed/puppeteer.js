@@ -45,11 +45,15 @@ declare module 'puppeteer' {
         waitUntil?: Array<'load' | 'domcontentloaded' | 'networkidle0' | 'networkidle2'>,
     }
 
+    declare type ClickOptionType = {
+        clickCount?: number,
+    }
+
     declare class Page {
         keyboard: KeyBoard,
         goto(url: string, options?: GotoOptionType): Promise<mixed>,
         screenshot(options: PageScreenshotOptionsType): Promise<mixed>,
-        click(cssSelector: string): Promise<mixed>,
+        click(cssSelector: string, options?: ClickOptionType): Promise<mixed>,
         type(cssSelector: string, text: string): Promise<mixed>,
         $(cssSelector: string): Promise<?ElementHandleType>,
         $$(cssSelector: string): Promise<Array<?ElementHandleType>>,

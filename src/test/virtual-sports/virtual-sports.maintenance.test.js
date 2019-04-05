@@ -50,7 +50,7 @@ describe('Virtual Sports / Maintenance', async function virtualSportsMaintenance
     });
 
     it('Maintenance create', async () => {
-        await page.goto(rootUrl + virtualSportsConst.url.create, {
+        await page.goto(rootUrl + virtualSportsConst.url.maintenance.create, {
             waitUntil: ['networkidle0'],
         });
 

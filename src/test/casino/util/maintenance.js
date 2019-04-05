@@ -67,7 +67,7 @@ async function createCasinoMaintenance(
     timeStart: TimeType,
     timeEnd: TimeType
 ) {
-    await page.goto(rootUrl + casinoConst.url.create, {
+    await page.goto(rootUrl + casinoConst.url.maintenance.create, {
         waitUntil: ['networkidle0'],
     });
 

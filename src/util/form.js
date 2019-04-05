@@ -3,25 +3,41 @@
 import type {Browser, InterceptedRequest, Page} from 'puppeteer';
 
 import {setSelect} from './select';
+import {setCheckbox} from './checkbox';
 
 type FormDataInputType = "text" | "number" | "select";
 
-type InputDataType = {
+type TextDataType = {
     type: FormDataInputType,
     name: string,
-    value: string,
+    value: string | number,
 };
+
+type CheckboxDataType = {
+    type: "checkbox",
+    name: string,
+    value: boolean,
+};
+
+export type InputDataType = TextDataType | CheckboxDataType;
 
 async function fillInput(page: Page, inputData: InputDataType) {
     const {type, name, value} = inputData;
 
+    const inputTextSelector = `input[name="${name}"]`;
+
     switch (type) {
         case 'text':
         case 'number':
-            await page.type(`input[name="${name}"]`, value);
+            await page.click(inputTextSelector, {clickCount: 3});
+            await page.type(inputTextSelector, String(value));
             break;
         case 'select':
-            await setSelect(page, {selector: name, value});
+            await setSelect(page, {selector: name, value: String(value)});
+            break;
+
+        case 'checkbox':
+            await setCheckbox(page, {selector: name, value: Boolean(value)});
             break;
 
         default:

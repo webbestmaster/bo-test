@@ -76,7 +76,7 @@ export async function createCasinoMaintenanceIForium(
     const iForiumName = providerStaticInfo.iForium.name;
     const iForiumSubProviderKey = providerStaticInfo.iForium.subProviderKey;
 
-    await page.goto(rootUrl + casinoConst.url.create, {
+    await page.goto(rootUrl + casinoConst.url.maintenance.create, {
         waitUntil: ['networkidle0'],
     });
 

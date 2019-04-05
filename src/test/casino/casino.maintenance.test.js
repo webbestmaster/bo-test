@@ -53,7 +53,7 @@ describe('Casino / Maintenance', async function casinoMaintenanceDescribe() {
     });
 
     it('Maintenance create (except IFORIUM)', async () => {
-        await page.goto(rootUrl + casinoConst.url.create, {
+        await page.goto(rootUrl + casinoConst.url.maintenance.create, {
             waitUntil: ['networkidle0'],
         });
 
@@ -68,7 +68,7 @@ describe('Casino / Maintenance', async function casinoMaintenanceDescribe() {
     });
 
     it('Maintenance create (IFORIUM only)', async () => {
-        await page.goto(rootUrl + casinoConst.url.create, {
+        await page.goto(rootUrl + casinoConst.url.maintenance.create, {
             waitUntil: ['networkidle0'],
         });
 
