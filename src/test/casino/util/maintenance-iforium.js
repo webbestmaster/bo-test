@@ -1,5 +1,7 @@
 // @flow
 
+import assert from 'assert';
+
 import type {Browser, InterceptedRequest, Page} from 'puppeteer';
 
 import {rootUrl} from '../../../const';
@@ -8,9 +10,14 @@ import type {TimeType} from '../../../util/calendar';
 import {setCalendar, timeToString} from '../../../util/calendar';
 import type {SelectOptionType} from '../../../util/select';
 import {setSelect} from '../../../util/select';
-import {buttonCreate, buttonUpdate} from '../../../util/selector';
+import {
+    buttonCreate,
+    buttonUpdate,
+    confirmButtonApply,
+    tableRemoveButton,
+} from '../../../util/selector';
 import {providerStaticInfo} from '../../../data/provider';
-import {mainTimeout} from '../../../data/timeout';
+import {mainSelectorTimeout, mainTimeout} from '../../../data/timeout';
 import {domFunctionTextIncludes} from '../../../util/dom';
 
 const tableSelector = '[data-at-table-name="casino-maintenance"]';
@@ -60,6 +67,13 @@ export async function checkCasinoMaintenanceIForium(
     };
 
     await editCasinoMaintenanceIForium(
+        page,
+        providerData,
+        timeEditStart,
+        timeEditEnd
+    );
+
+    await removeCasinoMaintenanceIForium(
         page,
         providerData,
         timeEditStart,
@@ -133,7 +147,6 @@ export async function editCasinoMaintenanceIForium(
     timeEnd: TimeType
 ) {
     const iForiumName = providerStaticInfo.iForium.name;
-    const iForiumSubProviderKey = providerStaticInfo.iForium.subProviderKey;
 
     await page.goto(rootUrl + casinoConst.url.root, {
         waitUntil: ['networkidle0'],
@@ -173,4 +186,63 @@ export async function editCasinoMaintenanceIForium(
         domFunctionTextIncludes(tableFirstRowSelector, timeToString(timeEnd)),
         {timeout: mainTimeout}
     );
+}
+
+async function removeCasinoMaintenanceIForium(
+    page: Page,
+    subProviderData: SelectOptionType,
+    timeStart: TimeType,
+    timeEnd: TimeType
+) {
+    const iForiumName = providerStaticInfo.iForium.name;
+
+    await page.goto(rootUrl + casinoConst.url.root, {
+        waitUntil: ['networkidle0'],
+    });
+
+    await page.waitForSelector(
+        `${tableFirstRowSelector} ${tableRemoveButton}`,
+        {timeout: mainTimeout}
+    );
+    await page.click(`${tableFirstRowSelector} ${tableRemoveButton}`);
+
+    await page.waitForSelector(confirmButtonApply, {timeout: mainTimeout});
+    await page.click(confirmButtonApply);
+
+    await page.waitFor(1e3);
+
+    await page.waitForSelector(`${tableSelector} tbody`, {
+        timeout: mainTimeout,
+    });
+
+    await assert.rejects(async () => {
+        await page.waitForFunction(
+            domFunctionTextIncludes(tableFirstRowSelector, iForiumName),
+            {timeout: mainSelectorTimeout}
+        );
+
+        await page.waitForFunction(
+            domFunctionTextIncludes(
+                tableFirstRowSelector,
+                `(${subProviderData.text})`
+            ),
+            {timeout: mainSelectorTimeout}
+        );
+
+        await page.waitForFunction(
+            domFunctionTextIncludes(
+                tableFirstRowSelector,
+                timeToString(timeStart)
+            ),
+            {timeout: mainSelectorTimeout}
+        );
+
+        await page.waitForFunction(
+            domFunctionTextIncludes(
+                tableFirstRowSelector,
+                timeToString(timeEnd)
+            ),
+            {timeout: mainSelectorTimeout}
+        );
+    });
 }

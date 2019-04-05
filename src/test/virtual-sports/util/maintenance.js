@@ -1,5 +1,7 @@
 // @flow
 
+import assert from 'assert';
+
 import type {Browser, InterceptedRequest, Page} from 'puppeteer';
 
 import {rootUrl} from '../../../const';
@@ -8,8 +10,13 @@ import type {TimeType} from '../../../util/calendar';
 import {setCalendar, timeToString} from '../../../util/calendar';
 import type {SelectOptionType} from '../../../util/select';
 import {setSelect} from '../../../util/select';
-import {buttonCreate, buttonUpdate} from '../../../util/selector';
-import {mainTimeout} from '../../../data/timeout';
+import {
+    buttonCreate,
+    buttonUpdate,
+    confirmButtonApply,
+    tableRemoveButton,
+} from '../../../util/selector';
+import {mainSelectorTimeout, mainTimeout} from '../../../data/timeout';
 import {domFunctionTextIncludes} from '../../../util/dom';
 
 const tableSelector = '[data-at-table-name="virtual-sports-maintenance"]';
@@ -59,6 +66,13 @@ export async function checkVirtualSportsMaintenance(
     };
 
     await editVirtualSportsMaintenance(
+        page,
+        providerData,
+        timeEditStart,
+        timeEditEnd
+    );
+
+    await removeVirtualSportsMaintenance(
         page,
         providerData,
         timeEditStart,
@@ -145,4 +159,53 @@ async function editVirtualSportsMaintenance(
         domFunctionTextIncludes(tableFirstRowSelector, timeToString(timeEnd)),
         {timeout: mainTimeout}
     );
+}
+
+async function removeVirtualSportsMaintenance(
+    page: Page,
+    providerData: SelectOptionType,
+    timeStart: TimeType,
+    timeEnd: TimeType
+) {
+    await page.goto(rootUrl + virtualSportsConst.url.root, {
+        waitUntil: ['networkidle0'],
+    });
+
+    await page.waitForSelector(
+        `${tableFirstRowSelector} ${tableRemoveButton}`,
+        {timeout: mainTimeout}
+    );
+    await page.click(`${tableFirstRowSelector} ${tableRemoveButton}`);
+
+    await page.waitForSelector(confirmButtonApply, {timeout: mainTimeout});
+    await page.click(confirmButtonApply);
+
+    await page.waitFor(1e3);
+
+    await page.waitForSelector(`${tableSelector} tbody`, {
+        timeout: mainTimeout,
+    });
+
+    await assert.rejects(async () => {
+        await page.waitForFunction(
+            domFunctionTextIncludes(tableFirstRowSelector, providerData.value),
+            {timeout: mainSelectorTimeout}
+        );
+
+        await page.waitForFunction(
+            domFunctionTextIncludes(
+                tableFirstRowSelector,
+                timeToString(timeStart)
+            ),
+            {timeout: mainSelectorTimeout}
+        );
+
+        await page.waitForFunction(
+            domFunctionTextIncludes(
+                tableFirstRowSelector,
+                timeToString(timeEnd)
+            ),
+            {timeout: mainSelectorTimeout}
+        );
+    });
 }
