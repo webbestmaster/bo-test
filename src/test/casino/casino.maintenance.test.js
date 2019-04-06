@@ -58,12 +58,15 @@ describe('Casino / Maintenance', async function casinoMaintenanceDescribe() {
         });
 
         const providerList = await getSelectValueList(page, 'provider');
+        const providerFilteredList = providerList.filter(
+            (provider: SelectOptionType): boolean => {
+                return provider.value !== providerStaticInfo.iForium.name;
+            }
+        );
 
         // eslint-disable-next-line no-loops/no-loops
-        for (const provider of providerList) {
-            if (provider.value !== providerStaticInfo.iForium.name) {
-                await checkCasinoMaintenance(page, provider);
-            }
+        for (const provider of providerFilteredList) {
+            await checkCasinoMaintenance(page, provider);
         }
     });
 
