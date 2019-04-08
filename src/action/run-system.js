@@ -10,8 +10,8 @@ type SystemDataType = {|
     +browser: Browser,
 |};
 
-const pathToChromeMacOS =
-    '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
+const pathToChromeMacOS
+    = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 
 export async function runSystem(): Promise<SystemDataType> {
     const {width, height} = appConst.window.size;

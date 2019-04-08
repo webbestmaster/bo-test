@@ -527,7 +527,7 @@
         ],
         "operator-linebreak": [
             1,
-            "after"
+            "before"
         ],
         "padded-blocks": [
             1,
